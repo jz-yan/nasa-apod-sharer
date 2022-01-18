@@ -1,0 +1,11 @@
+:host ::ng-deep .mat-tab-header {
+  background-color: white !important;
+  width: 100%;
+  position: fixed !important;
+  z-index: 999;
+}
+
+::ng-deep .mat-tab-body-wrapper{
+  position: relative !important;
+  margin-top: 64px;
+}

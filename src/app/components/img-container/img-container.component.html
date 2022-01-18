@@ -1,0 +1,37 @@
+<div>
+  <mat-card class="media-base-card">
+    <mat-card-header class="media-header">
+      <mat-card-title>{{ nasaImage.title }}</mat-card-title>
+      <mat-card-subtitle>{{ nasaImage.copyright }}</mat-card-subtitle>
+      <mat-card-subtitle>{{ nasaImage.date }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <div class="image-w" *ngIf="nasaImage.media_type==='image'">
+      <img [src]="nasaImage.url">
+      <div class="cover">
+        <p class="media-description-hover">
+          {{ nasaImage.explanation }}
+        </p>
+      </div>
+    </div>
+
+    <div *ngIf="nasaImage.media_type==='video'" class="video-container">
+      <iframe [src]="sanitizeVideo()" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    
+    <mat-card-actions>
+      <button (click)="onLike()" [color]="toggleLike()" mat-fab aria-label="Example icon button with a heart icon">
+        <mat-icon>favorite</mat-icon>
+      </button>
+      <button *ngIf="nasaImage.media_type === 'image'" (click)="openOnlyMedia()" class="middle-button" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+        <mat-icon>pageview</mat-icon>
+      </button>
+      <button *ngIf="mobileOrVideo()" (click)="openOnlyExplanation()" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+        <mat-icon>info</mat-icon>
+      </button>
+      <a [href]="nasaImage.url" target="_blank" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+        <mat-icon>share</mat-icon>
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,12 @@
+<img *ngIf="data.media_type === 'image'" [src]="data.url" class="img-wrapper">
+
+<mat-card *ngIf="data.explanation">
+  <mat-card-title>
+    {{ data.title }}
+  </mat-card-title>
+  <mat-card-content>
+    <p>
+      {{ data.explanation }}
+    </p>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,26 @@
+@use "@material/image-list";
+
+.main-feed {
+  width: 20%;
+
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+.media-list {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding-bottom: 30px;
+
+  width: 35%;
+
+  @media only screen and (max-width: 768px) { 
+    width: 95%;
+  }
+}
+
+.my-masonry-image-list {
+  @include image-list.masonry-columns(4);
+}

@@ -1,0 +1,88 @@
+::ng-deep .mat-dialog-container {
+  padding: 0 !important;
+  background-color: transparent;
+}
+
+.media-base-card {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.media-header {
+  text-align: left;
+}
+
+.example-card {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-w {
+  display: block;
+  position: relative;
+  width: 100%;
+}
+
+.image-w img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.cover {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: rgba(255, 255, 255, 0);
+  text-align: center;
+  transition: all 1s linear;
+
+  display: table;
+  overflow: hidden;
+  border-radius: 15px;
+}
+
+.image-w:hover .cover {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 1);
+  transition: all .2s linear;
+}
+
+.media-description-hover {
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+}
+
+mat-card-actions button, a {
+  margin-left: 1%;
+  margin-right: 1%;
+}
