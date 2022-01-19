@@ -1,8 +1,10 @@
 # NASA Views
 
-NASA Views is an image sharing interface designed to allow users to browse through, like/unlike, share, and learn more about APODs captured by NASA photographers. 
+NASA Views is an image-sharing interface designed to allow users to browse through, like/unlike, share, and learn more about APODs captured by NASA photographers. It can be found [here](https://jzyan1999.github.io/nasa-apod-sharer/).
 
 This project was created by Jason Yan of University of Waterloo's Software Engineering for Shopify's Summer 2022 Frontend Challenge. It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+
+## Features
 
 ## Development server
 
