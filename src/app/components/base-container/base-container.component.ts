@@ -22,6 +22,8 @@ export class BaseContainerComponent implements OnInit {
   likedImages: any[] = [];
   // When to show skeleton loader (when images haven't loaded in yet from apod api)
   mediaLoaded: boolean = false;
+// When to show skeleton loader (when additional images haven't loaded in yet)
+  scrollingLoaded: boolean = true;
 
   constructor(public apodService: ApodSharerService) {}
 
@@ -58,6 +60,7 @@ export class BaseContainerComponent implements OnInit {
         newImages.sort((a, b) => (a.date < b.date) ? 1 : -1);
         // Remove skeleton loader once everything is finished
         this.mediaLoaded = true;
+        this.scrollingLoaded = true;
 
         // Adding new posts to regular feed
         this.feedImages = this.feedImages.concat(newImages);
@@ -93,6 +96,7 @@ export class BaseContainerComponent implements OnInit {
 
   // Called when infinite scroll triggered to add more posts to regular feed
   updateFeed() {
+    this.scrollingLoaded = false;
     this.getMediaFeed(this.apodService.getScrollingImages());
   }
 }

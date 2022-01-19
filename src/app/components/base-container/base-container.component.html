@@ -2,14 +2,16 @@
   <mat-tab color="primary" [label]="forYouLabel">
     <div>
       <!-- Regular feed -->
-      <app-home-container [FeedType]="feedReg" [FeedImages]="feedImages" [MediaLoaded]="mediaLoaded" (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()">
+      <app-home-container [FeedType]="feedReg" [FeedImages]="feedImages" [MediaLoaded]="mediaLoaded"
+        [ScrollingLoaded]="scrollingLoaded" (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()">
       </app-home-container>
     </div>
   </mat-tab>
   <mat-tab color="warning" [label]="likedPostsLabel">
     <div>
       <!-- Liked feed -->
-      <app-home-container [FeedType]="feedLiked" [FeedImages]="likedImages" (onSelectLike)="updateLikedList($event)"></app-home-container>
+      <app-home-container [FeedType]="feedLiked" [FeedImages]="likedImages" (onSelectLike)="updateLikedList($event)">
+      </app-home-container>
     </div>
   </mat-tab>
 </mat-tab-group>

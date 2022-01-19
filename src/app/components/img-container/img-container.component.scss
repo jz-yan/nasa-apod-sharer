@@ -4,7 +4,7 @@
 }
 
 .media-base-card {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .media-header {
@@ -43,7 +43,7 @@
 .image-w:hover .cover {
   background-color: rgba(0, 0, 0, 0.5);
   color: rgba(255, 255, 255, 1);
-  transition: all .2s linear;
+  transition: all 0.2s linear;
 }
 
 .media-description-hover {

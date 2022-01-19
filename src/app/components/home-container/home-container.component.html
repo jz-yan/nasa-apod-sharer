@@ -7,4 +7,7 @@
       <app-img-container [nasaImage]="image" (onLikeImage)="likedImage($event)"></app-img-container>
     </div>
   </div>
+  <div *ngIf="!ScrollingLoaded" class="media-list">
+    <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+  </div>
 </div>

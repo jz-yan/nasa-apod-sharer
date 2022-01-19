@@ -14,6 +14,8 @@ export class HomeContainerComponent implements OnInit {
   @Input() FeedImages: NASAImage[] = [];
   // Boolean to show skeleton loader, only applicable for regular feed
   @Input() MediaLoaded: boolean = true;
+  // Boolean to show additional skeleton loader, only applicable for regular feed
+  @Input() ScrollingLoaded: boolean = true;
   // Emits post that has been liked or unliked
   @Output() onSelectLike: EventEmitter<NASAImage> = new EventEmitter();
   // Emits when more posts are needed to be displayed, aka when infinite scroll is triggered
