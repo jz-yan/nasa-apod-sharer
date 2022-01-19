@@ -1,6 +1,8 @@
-# ApodSharer
+# NASA Views
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
+NASA Views is an image sharing interface designed to allow users to browse through, like/unlike, share, and learn more about APODs captured by NASA photographers. 
+
+This project was created by Jason Yan of University of Waterloo's Software Engineering for Shopify's Summer 2022 Frontend Challenge. It was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.1.2.
 
 ## Development server
 
