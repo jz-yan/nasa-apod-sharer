@@ -6,6 +6,16 @@ This project was created by Jason Yan of University of Waterloo's Software Engin
 
 ## Features
 
+- Two seperate feeds, **For You** and **Liked Posts**, showing APODs retrieved from NASA's APOD API and liked APOD posts respectively
+- Infinite scrolling to allow for APODs to be continuously retrieved and added to **For You** feed
+- Liked posts saved when users leave or reload page
+- Skeleton loading state in **For You** feed when retrieving APODs
+- Posts able to be liked/unliked in both feeds, in which changes will be propagated to both
+- Shareable links for each post
+- YouTube URLs played via embedded media player
+- Post explanation appears when image hovered on
+- Responsive design works in mobile view
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
