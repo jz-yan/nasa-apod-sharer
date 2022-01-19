@@ -6,11 +6,11 @@ This project was created by Jason Yan of University of Waterloo's Software Engin
 
 ## Features
 
-- Two seperate feeds, **For You** and **Liked Posts**, showing APODs retrieved from NASA's APOD API and liked APOD posts respectively
-- Infinite scrolling to allow for APODs to be continuously retrieved and added to **For You** feed
+- Two separate feeds, **For You** and **Liked Posts**, showing APODs retrieved from NASA's APOD API and liked APOD posts respectively
+- Infinite scrolling allow for APODs to be continuously retrieved and added to **For You** feed
 - Liked posts saved when users leave or reload page
 - Skeleton loading state in **For You** feed when retrieving APODs
-- Posts able to be liked/unliked in both feeds, in which changes will be propagated to both
+- Posts able to be liked/unliked in both feeds, in which changes will be propagated to other feed
 - Shareable links for each post
 - YouTube URLs played via embedded media player
 - Post explanation appears when image hovered on
