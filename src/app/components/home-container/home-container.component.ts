@@ -8,39 +8,27 @@ import { NASAImage } from 'src/app/interfaces';
   styleUrls: ['./home-container.component.scss']
 })
 export class HomeContainerComponent implements OnInit {
+  // Type of feed: regular or liked
   @Input() FeedType: FEEDTYPE = FEEDTYPE.REGULAR;
+  // Array of posts to display
   @Input() FeedImages: NASAImage[] = [];
+  // Boolean to show skeleton loader, only applicable for regular feed
   @Input() MediaLoaded: boolean = true;
+  // Emits post that has been liked or unliked
   @Output() onSelectLike: EventEmitter<NASAImage> = new EventEmitter();
+  // Emits when more posts are needed to be displayed, aka when infinite scroll is triggered
   @Output() onAppendMedia: EventEmitter<{}> = new EventEmitter();
   
-  tempImg: NASAImage = {} as NASAImage;
-  data: any[] = [];
-  feedImages: NASAImage[] = [];
-  likedImages: any[] = [];
-
   constructor() {}
   
-  ngOnInit(): void {
-    if (this.FeedType == FEEDTYPE.LIKED) {
-      console.log("Liked feed reached");
-    }
-    this.feedImages = this.FeedImages;
-  }
+  ngOnInit(): void {}
 
-  isRegularFeed(): boolean {
-    return this.FeedType === FEEDTYPE.REGULAR;
-  }
-
+  // Emitting post that has been liked or unliked
   likedImage(image: NASAImage) {
-    if (this.FeedType === FEEDTYPE.LIKED) {
-      this.feedImages = this.feedImages.filter((i) => i.url !== image.url);
-    }
-    
-    this.tempImg = image;
-    this.onSelectLike.emit(this.tempImg);
+    this.onSelectLike.emit(image);
   }
 
+  // Emitting when more posts are needed to be displayed
   onScroll() {
     if (this.FeedType === FEEDTYPE.REGULAR) {
       this.onAppendMedia.emit();

@@ -20,16 +20,16 @@
     </div>
     
     <mat-card-actions>
-      <button (click)="onLike()" [color]="toggleLike()" mat-fab aria-label="Example icon button with a heart icon">
+      <button (click)="onLike()" [color]="toggleLike()" mat-fab [attr.aria-label]="likePostMessage" [matTooltip]="likePostMessage">
         <mat-icon>favorite</mat-icon>
       </button>
-      <button *ngIf="nasaImage.media_type === 'image'" (click)="openOnlyMedia()" class="middle-button" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+      <button *ngIf="nasaImage.media_type === 'image'" (click)="openOnlyMedia()" color="primary" mat-fab [attr.aria-label]="mediaDialogMessage" [matTooltip]="mediaDialogMessage">
         <mat-icon>pageview</mat-icon>
       </button>
-      <button *ngIf="mobileOrVideo()" (click)="openOnlyExplanation()" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+      <button *ngIf="mobileOrVideo()" (click)="openOnlyExplanation()" color="primary" mat-fab [attr.aria-label]="explanationDialogMessage" [matTooltip]="explanationDialogMessage">
         <mat-icon>info</mat-icon>
       </button>
-      <a [href]="nasaImage.url" target="_blank" color="primary" mat-fab aria-label="Example icon button with a heart icon">
+      <a [href]="nasaImage.url" target="_blank" color="primary" mat-fab [attr.aria-label]="shareMessage" [matTooltip]="shareMessage">
         <mat-icon>share</mat-icon>
       </a>
     </mat-card-actions>

@@ -1,5 +1,3 @@
-@use "@material/image-list";
-
 .main-feed {
   width: 20%;
 
@@ -19,8 +17,4 @@
   @media only screen and (max-width: 768px) { 
     width: 95%;
   }
-}
-
-.my-masonry-image-list {
-  @include image-list.masonry-columns(4);
 }
