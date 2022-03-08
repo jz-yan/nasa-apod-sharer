@@ -1,11 +1,63 @@
-<mat-tab-group dynamicHeight mat-stretch-tabs class="sticky-header">
+<button mat-fab color="primary" (click)="toggleMenu()"
+  class="menu-button">
+  <i class="material-icons" *ngIf="!openMenu">menu</i>
+  <i class="material-icons" *ngIf="openMenu">close</i>
+</button>
+
+<button
+  mat-mini-fab
+  class="action-button one"
+  *ngIf="openMenu"
+  color="basic"
+  (click)="returnToTop()"
+
+  [matTooltip]="scrollTopMsg"
+  matTooltipPosition="left"
+  [attr.aria-label]="scrollTopMsg"
+>
+  <i class="material-icons">arrow_upward</i>
+</button>
+
+<button
+  mat-mini-fab
+  class="action-button two"
+  *ngIf="openMenu"
+  color="basic"
+  (click)="refreshFeed()"
+
+  [matTooltip]="refreshMsg"
+  matTooltipPosition="left"
+  [attr.aria-label]="refreshMsg"
+>
+  <i class="material-icons">refresh</i>
+</button>
+
+<!-- <button
+  mat-fab
+  class="action-button three"
+  *ngIf="openMenu"
+  color="basic"
+
+  [matTooltip]="lightingMsg"
+  matTooltipPosition="left"
+  [attr.aria-label]="lightingMsg"
+>
+  <i class="material-icons">bedtime</i>
+</button> -->
+
+<mat-toolbar color="primary">
+  <img src="favicon.ico" height="90%">
+  <span class="toolbar-title">NASA Views</span>
+</mat-toolbar>
+
+<mat-tab-group dynamicHeight mat-stretch-tabs class="sticky-header" animationDuration="0ms">
   <mat-tab color="primary" [label]="forYouLabel">
-    <div>
+    <ng-template matTabContent>
       <!-- Regular feed -->
       <app-home-container [FeedType]="feedReg" [FeedImages]="feedImages" [MediaLoaded]="mediaLoaded"
         [ScrollingLoaded]="scrollingLoaded" (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()">
       </app-home-container>
-    </div>
+    </ng-template>
   </mat-tab>
   <mat-tab color="warning" [label]="likedPostsLabel">
     <div>

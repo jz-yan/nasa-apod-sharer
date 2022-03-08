@@ -1,11 +1,72 @@
 :host ::ng-deep .mat-tab-header {
   background-color: white !important;
-  width: 100%;
+  width: 70%;
+  margin-top: 64px !important;
+
+  @media only screen and (max-width: 768px) { 
+    width: 100%;
+    margin-top: 55px !important;
+  }
+
   position: fixed !important;
-  z-index: 999;
+  z-index: 1000;
+  align-self: center;
 }
 
-::ng-deep .mat-tab-body-wrapper{
+.mat-toolbar {
+  position: fixed !important;
+  z-index: 1000;
+  width: 100%;
+}
+
+.toolbar-title {
+  font-size: larger;
+  padding: 0 10px 0 10px;
+}
+
+::ng-deep .mat-tab-label-content {
+  font-size: larger;
+}
+
+::ng-deep .mat-tab-body-wrapper {
   position: relative !important;
-  margin-top: 64px;
+  margin-top: 132px;
+}
+
+.menu-button {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  z-index: 1000;
+
+  @media only screen and (max-width: 768px) { 
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+.action-button {
+  position: fixed;
+  right: 3.75rem;
+  z-index: 1000;
+
+  @media only screen and (max-width: 768px) { 
+    right: 1rem;
+  }
+}
+
+.one {
+  bottom: 7.5rem;
+
+  @media only screen and (max-width: 768px) { 
+    bottom: 5rem;
+  }
+}
+
+.two {
+  bottom: 11rem;
+
+  @media only screen and (max-width: 768px) { 
+    bottom: 9.5rem;
+  }
 }
