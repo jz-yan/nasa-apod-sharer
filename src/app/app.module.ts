@@ -16,7 +16,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatDialogModule } from '@angular/material/dialog';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BaseContainerComponent } from './components/base-container/base-container.component';
@@ -45,6 +47,7 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     MatDividerModule,
     MatDialogModule,
     MatTooltipModule,
+    MatToolbarModule,
 
     BrowserAnimationsModule,
     InfiniteScrollModule,
