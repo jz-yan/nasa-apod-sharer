@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { NASAImage } from '../interfaces';
+import { editNewMedia, NASAImage } from '../../interfaces';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,6 @@ export class ApodSharerService {
     return currDate.toISOString().split('T')[0];
   }
 
-
   // Get next date based on interval
   getNextDate(currDate: Date, interval: number): Date {
     let newDate: Date = new Date();
@@ -42,9 +42,17 @@ export class ApodSharerService {
   }
 
   // Call GET with provided query parameters
-  getMediaByURL(url: string, startDate: Date, endDate: Date) {
+  getMediaByURL(url: string, startDate: Date, endDate: Date): Observable<any> {
     let params = new HttpParams().set('api_key', this.apiKey).set('start_date', this.getISODate(startDate)).set('end_date', this.getISODate(endDate));
     return this.httpClient.get(url, { params: params });
+  }
+
+  getApod(isInitial: boolean = true) {
+    if (isInitial) {
+      return this.getInitialAPOD();
+    }
+
+    return this.getScrollingImages();
   }
 
   // Get initial posts
@@ -63,22 +71,35 @@ export class ApodSharerService {
     return this.getMediaByURL(this.apodURL, this.startDate, this.endDate);
   }
 
-  // Save liked images in local storage
-  saveLikedImages(likedImages: NASAImage[]): boolean {
-    try {
-      localStorage.setItem("likedImages", JSON.stringify(likedImages));
-    } catch(e) {
-      return false;
-    }
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   *
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
 
-    return true;
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 
-
-  // Retrieve liked images from local storage
-  getLikedImages(): NASAImage[] {
-    let likedImages: NASAImage[] = JSON.parse(localStorage.getItem("likedImages") || "[]");
-
-    return likedImages;
+  getMedia(isInitial: boolean = true): Observable<NASAImage[]> {
+    return this.getApod(isInitial)
+      .pipe(
+        map((response: NASAImage[]) => {
+          // Sorting by date descending
+          response.sort((a, b) => (a.date < b.date) ? 1 : -1);
+          return response.map((i) => editNewMedia(i));
+        })
+      );
   }
 }

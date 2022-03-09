@@ -1,0 +1,10 @@
+<div 
+    *ngIf="!isScrollingVisible" 
+    class="feed-loader"
+>
+   <ngx-skeleton-loader 
+        [count]="numLoaders" 
+        appearance="circle"
+    ></ngx-skeleton-loader>
+</div>
+  

@@ -24,6 +24,15 @@
   padding: 0 10px 0 10px;
 }
 
+mat-toolbar {
+  display: flex;
+  // align-items: center;
+  // justify-content: space-between;
+  // height: 3.5rem;
+  width: 100%;
+  // background-color: lightgrey;
+}
+
 ::ng-deep .mat-tab-label-content {
   font-size: larger;
 }

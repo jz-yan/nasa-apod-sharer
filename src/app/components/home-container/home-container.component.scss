@@ -6,10 +6,17 @@
   align-items: center;
 }
 
+.empty-list {
+  text-align: center;
+}
+
+mat-label {
+  font-size: large;
+}
+
 .media-list {
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
   padding-bottom: 30px;
 
   width: 80%;

@@ -25,6 +25,7 @@ import { BaseContainerComponent } from './components/base-container/base-contain
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { MediaComponentComponent } from './components/media-component/media-component.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { FeedLoaderComponent } from './components/feed-loader/feed-loader.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
     HomeContainerComponent,
     ImgContainerComponent,
     BaseContainerComponent,
-    MediaComponentComponent
+    MediaComponentComponent,
+    FeedLoaderComponent
   ],
   imports: [
     BrowserModule,

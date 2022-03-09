@@ -1,13 +1,13 @@
 <div infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
-  <div *ngIf="!MediaLoaded" class="media-list">
-    <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+  <div
+    *ngIf="feedImagesEmpty"
+    class="empty-list"
+  >
+    <mat-label>
+      {{ EmptyMsg }}
+    </mat-label>
   </div>
-  <div *ngIf="MediaLoaded">
-    <div *ngFor="let image of FeedImages" class="media-list">
-      <app-img-container [nasaImage]="image" (onLikeImage)="likedImage($event)"></app-img-container>
-    </div>
-  </div>
-  <div *ngIf="!ScrollingLoaded" class="media-list">
-    <ngx-skeleton-loader count="5" appearance="circle"></ngx-skeleton-loader>
+  <div *ngFor="let image of FeedImages" class="media-list">
+    <app-img-container [nasaImage]="image" (onLikeImage)="likedImage($event)"></app-img-container>
   </div>
 </div>

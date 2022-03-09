@@ -12,10 +12,8 @@ export class HomeContainerComponent implements OnInit {
   @Input() FeedType: FEEDTYPE = FEEDTYPE.REGULAR;
   // Array of posts to display
   @Input() FeedImages: NASAImage[] = [];
-  // Boolean to show skeleton loader, only applicable for regular feed
-  @Input() MediaLoaded: boolean = true;
-  // Boolean to show additional skeleton loader, only applicable for regular feed
-  @Input() ScrollingLoaded: boolean = true;
+  // Message for when feed is empty
+  @Input() EmptyMsg: string = "";
   // Emits post that has been liked or unliked
   @Output() onSelectLike: EventEmitter<NASAImage> = new EventEmitter();
   // Emits when more posts are needed to be displayed, aka when infinite scroll is triggered
@@ -35,5 +33,9 @@ export class HomeContainerComponent implements OnInit {
     if (this.FeedType === FEEDTYPE.REGULAR) {
       this.onAppendMedia.emit();
     }
+  }
+
+  get feedImagesEmpty(): boolean {
+    return this.FeedImages.length == 0;
   }
 }
