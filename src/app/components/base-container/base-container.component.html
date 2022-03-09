@@ -46,24 +46,51 @@
 </button> -->
 
 <mat-toolbar color="primary">
-  <img src="favicon.ico" height="90%">
-  <span class="toolbar-title">NASA Views</span>
+  <mat-toolbar-row>
+    <img src="favicon.ico" height="90%">
+    <span class="toolbar-title">NASA Views</span>
+  </mat-toolbar-row>
 </mat-toolbar>
 
-<mat-tab-group dynamicHeight mat-stretch-tabs class="sticky-header" animationDuration="0ms">
-  <mat-tab color="primary" [label]="forYouLabel">
+<mat-tab-group 
+  dynamicHeight 
+  mat-stretch-tabs 
+  class="sticky-header" 
+  animationDuration="0ms"
+>
+  <mat-tab [label]="forYouLabel">
     <ng-template matTabContent>
-      <!-- Regular feed -->
-      <app-home-container [FeedType]="feedReg" [FeedImages]="feedImages" [MediaLoaded]="mediaLoaded"
-        [ScrollingLoaded]="scrollingLoaded" (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()">
-      </app-home-container>
+      <!-- Skeleton loader for For You feed -->
+      <app-feed-loader
+        [ShowLoading]="mediaLoaded"
+      ></app-feed-loader>
+
+      <!-- For You feed -->
+      <app-home-container 
+        *ngIf="mediaLoaded" 
+        [FeedType]="feedReg" 
+        [FeedImages]="feedImages"
+        [EmptyMsg]="forYouEmpty"
+        (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()"
+      ></app-home-container>
+
+      <!-- Skeleton loader for infinite scrolling -->
+      <app-feed-loader
+        [ShowLoading]="scrollingLoaded"
+      ></app-feed-loader>
     </ng-template>
   </mat-tab>
-  <mat-tab color="warning" [label]="likedPostsLabel">
-    <div>
+  <mat-tab 
+    [label]="likedPostsLabel"
+  >
+    <ng-template matTabContent>
       <!-- Liked feed -->
-      <app-home-container [FeedType]="feedLiked" [FeedImages]="likedImages" (onSelectLike)="updateLikedList($event)">
-      </app-home-container>
-    </div>
+      <app-home-container 
+        [FeedType]="feedLiked" 
+        [FeedImages]="likedImages" 
+        [EmptyMsg]="likedEmpty"
+        (onSelectLike)="updateLikedList($event)"
+      ></app-home-container>
+    </ng-template>
   </mat-tab>
 </mat-tab-group>

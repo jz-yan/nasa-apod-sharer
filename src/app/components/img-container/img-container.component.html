@@ -6,27 +6,27 @@
       <mat-card-subtitle>{{ nasaImage.date }}</mat-card-subtitle>
     </mat-card-header>
 
-    <div class="image-w" *ngIf="nasaImage.media_type==='image'">
+    <div class="image-w" *ngIf="isImage">
       <img [src]="nasaImage.url">
-      <div class="cover">
+      <div *ngIf="!isMobile" class="cover">
         <p class="media-description-hover">
           {{ nasaImage.explanation }}
         </p>
       </div>
     </div>
 
-    <div *ngIf="nasaImage.media_type==='video'" class="video-container">
+    <div *ngIf="!isImage" class="video-container">
       <iframe [src]="sanitizeVideo()" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     
     <mat-card-actions>
-      <button (click)="onLike()" [color]="toggleLike()" mat-fab [attr.aria-label]="likePostMessage" [matTooltip]="likePostMessage">
+      <button (click)="onLike()" [color]="toggleLikeColour()" mat-fab [attr.aria-label]="likePostMessage" [matTooltip]="likePostMessage">
         <mat-icon>favorite</mat-icon>
       </button>
-      <button *ngIf="nasaImage.media_type === 'image'" (click)="openOnlyMedia()" color="primary" mat-fab [attr.aria-label]="mediaDialogMessage" [matTooltip]="mediaDialogMessage">
+      <button *ngIf="isImage && !isMobile" (click)="openDialog()" color="primary" mat-fab [attr.aria-label]="mediaDialogMessage" [matTooltip]="mediaDialogMessage">
         <mat-icon>pageview</mat-icon>
       </button>
-      <button *ngIf="mobileOrVideo()" (click)="openOnlyExplanation()" color="primary" mat-fab [attr.aria-label]="explanationDialogMessage" [matTooltip]="explanationDialogMessage">
+      <button *ngIf="isMobile || !isImage" (click)="openDialog(false)" color="primary" mat-fab [attr.aria-label]="explanationDialogMessage" [matTooltip]="explanationDialogMessage">
         <mat-icon>info</mat-icon>
       </button>
       <a [href]="nasaImage.url" target="_blank" color="primary" mat-fab [attr.aria-label]="shareMessage" [matTooltip]="shareMessage">

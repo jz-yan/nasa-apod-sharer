@@ -35,4 +35,10 @@ $angular-dark-theme: mat.define-dark-theme(
 }
 
 html, body { height: 100%; }
+// body {
+//   background-position: center;
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   background:url('https://i.pinimg.com/originals/59/f6/a0/59f6a0e339e79ccfd8f397cc4dce63ac.jpg')no-repeat center center fixed; 
+// }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

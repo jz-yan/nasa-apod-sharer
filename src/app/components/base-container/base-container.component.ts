@@ -1,8 +1,9 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ApodSharerService } from 'src/app/services/apod-sharer.service';
-import { FEEDTYPE } from 'src/app/constants';
+import { Component, OnInit } from '@angular/core';
+import { ApodSharerService } from 'src/app/services/apod-sharer/apod-sharer.service';
+import { FEED_TYPE, LIKED_EMPTY, REGULAR_EMPTY } from 'src/app/constants';
 import { NASAImage } from 'src/app/interfaces';
+import { LikedMediaService } from 'src/app/services/liked-media/liked-media.service';
+import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.service';
 
 @Component({
   selector: 'app-base-container',
@@ -10,14 +11,11 @@ import { NASAImage } from 'src/app/interfaces';
   styleUrls: ['./base-container.component.scss']
 })
 export class BaseContainerComponent implements OnInit {
-  @ViewChild('menuOpenButton') menuOpenButton: ElementRef | undefined;
-  @ViewChild('menuButton') menuButton: ElementRef | undefined;
+  public forYouLabel = "For You";
+  public likedPostsLabel = "Liked Posts";
 
-  forYouLabel = "For You";
-  likedPostsLabel = "Liked Posts";
-
-  feedReg = FEEDTYPE.REGULAR;
-  feedLiked = FEEDTYPE.LIKED;
+  feedReg = FEED_TYPE.REGULAR;
+  feedLiked = FEED_TYPE.LIKED;
 
   // Open, close menu
   public openMenu: boolean = false;
@@ -30,77 +28,59 @@ export class BaseContainerComponent implements OnInit {
   public lightingMsg: string = "Change lighting mode";
 
   // array of posts corresponding to regular feed
-  feedImages: NASAImage[] = [];
+  public feedImages: NASAImage[] = [];
   // array of posts that have been liked
-  likedImages: any[] = [];
+  public likedImages: NASAImage[] = [];
   // When to show skeleton loader (when images haven't loaded in yet from apod api)
-  mediaLoaded: boolean = false;
-// When to show skeleton loader (when additional images haven't loaded in yet)
-  scrollingLoaded: boolean = true;
+  public mediaLoaded: boolean = false;
+  // When to show skeleton loader (when additional images haven't loaded in yet)
+  public scrollingLoaded: boolean = true;
+
+  // Empty message for For You feed
+  public forYouEmpty: string = REGULAR_EMPTY;
+  // Empty message for Liked feed
+  public likedEmpty: string = LIKED_EMPTY;
 
   constructor(
     private apodService: ApodSharerService,
-    private renderer: Renderer2
-  ) {
-      // /**
-      //   * This events get called by all clicks on the page
-      //   */
-      // this.renderer.listen('window', 'click', (e:Event) => {
-      //   /**
-      //    * Only run when toggleButton is not clicked
-      //    * If we don't check this, all clicks (even on the toggle button) gets into this
-      //    * section which in the result we might never see the menu open!
-      //    * And the menu itself is checked here, and it's where we check just outside of
-      //    * the menu and button the condition abbove must close the menu
-      //    */
-      //   if (this.menuButton && e.target !== this.menuButton.nativeElement) {
-      //       this.openMenu = false;
-      //   }
-      // });
-  }
+    private likedMedService: LikedMediaService,
+    private dialogService: DialogModalService
+  ) {}
 
   // When initialized, get liked posts from local storage and retrieve initial posts from apod service
   ngOnInit(): void {
-    this.likedImages = this.apodService.getLikedImages();
-    this.getMediaFeed(this.apodService.getInitialAPOD());
+    this.likedImages = this.likedMedService.getLikedImages();
+    
+    // Get initial images
+    this.getImages();
   }
 
-  // Retrieve initial posts from apod service
-  getMediaFeed(service: Observable<Object>): void {
-    service.subscribe({
-      next: (res: any) => {
-        let newImages: NASAImage[] = res;
+  getImages(isInitial: boolean = true): void {
+   this.apodService.getMedia(isInitial)
+   .subscribe({
+      next: (data: NASAImage[]) => {
+         this.feedImages = this.feedImages.concat(data);
 
-        // Looping through images from api call to add liked property and checking if it is already liked
-        for (let i = 0; i < newImages.length; i++) {
-          
-          newImages[i].liked = false;
+         if (isInitial) {
+            // Apply liked media
+            this.applyLikedMedia();
+         }
 
-          for (let j = 0; j < this.likedImages.length; j++) {
-            if (newImages[i].date === this.likedImages[j].date) {
-              newImages[i].liked = true;
-              break;
-            }
-          }
+         this.mediaLoaded = true;
+         this.scrollingLoaded = true;
+       },
+       error: (error: Error) => {
+         this.dialogService.openErrorModal(error);
+       }
+     })
+ }
 
-          if (!newImages[i].copyright) {
-            newImages[i].copyright = 'NASA Public Domain';
-          }
+  applyLikedMedia(): void {
+     for (let i = 0; i < this.feedImages.length; i++) {
+        if (this.likedImages.some(e => e.date === this.feedImages[i].date)) {
+           this.feedImages[i].liked = true;
         }
-        
-        // Sort by date descending
-        newImages.sort((a, b) => (a.date < b.date) ? 1 : -1);
-        // Remove skeleton loader once everything is finished
-        this.mediaLoaded = true;
-        this.scrollingLoaded = true;
-
-        // Adding new posts to regular feed
-        this.feedImages = this.feedImages.concat(newImages);
-      },
-      error: (err: any) => {
-        console.log(err)
-      }
-    })
+     }
   }
 
   // Method called when like button clicked on posts either in regular or liked feeds
@@ -111,17 +91,15 @@ export class BaseContainerComponent implements OnInit {
 
     // If post has been liked, add to liked feed and toggle liked property to true
     if (image.liked) {
-      console.log("Image liked");
       this.likedImages.push(image);
     }
     // If post has been unliked, remove from liked feed
     else {
-      console.log("Image unliked");
       this.likedImages = this.likedImages.filter(({ date }) => date !== image.date); 
     }
 
     // Saving liked media to localStorage
-    this.apodService.saveLikedImages(this.likedImages);
+    this.likedMedService.saveLikedImages(this.likedImages);
   }
 
   getApodService() {
@@ -131,7 +109,7 @@ export class BaseContainerComponent implements OnInit {
   // Called when infinite scroll triggered to add more posts to regular feed
   updateFeed() {
     this.scrollingLoaded = false;
-    this.getMediaFeed(this.apodService.getScrollingImages());
+    this.getImages(false);
   }
 
   toggleMenu() {
@@ -139,8 +117,6 @@ export class BaseContainerComponent implements OnInit {
   }
 
   returnToTop() {
-    // document.body.scrollTop = 0; // For Safari
-    // document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     window.scrollTo({top: 0, behavior: 'smooth'});
     this.openMenu = !this.openMenu;
   }
@@ -149,6 +125,6 @@ export class BaseContainerComponent implements OnInit {
     this.returnToTop();
     this.mediaLoaded = false;
     
-    this.getMediaFeed(this.apodService.getInitialAPOD());
+    this.getImages();
   }
 }
