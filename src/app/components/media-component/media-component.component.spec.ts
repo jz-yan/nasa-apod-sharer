@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MediaComponentComponent } from './media-component.component';
+import { PopupModalComponent } from './media-component.component';
 
 describe('MediaComponentComponent', () => {
-  let component: MediaComponentComponent;
-  let fixture: ComponentFixture<MediaComponentComponent>;
+  let component: PopupModalComponent;
+  let fixture: ComponentFixture<PopupModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MediaComponentComponent ]
+      declarations: [ PopupModalComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MediaComponentComponent);
+    fixture = TestBed.createComponent(PopupModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

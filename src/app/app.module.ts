@@ -23,7 +23,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BaseContainerComponent } from './components/base-container/base-container.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { MediaComponentComponent } from './components/media-component/media-component.component';
+import { PopupModalComponent } from './components/media-component/media-component.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { FeedLoaderComponent } from './components/feed-loader/feed-loader.component';
 
@@ -33,7 +33,7 @@ import { FeedLoaderComponent } from './components/feed-loader/feed-loader.compon
     HomeContainerComponent,
     ImgContainerComponent,
     BaseContainerComponent,
-    MediaComponentComponent,
+    PopupModalComponent,
     FeedLoaderComponent
   ],
   imports: [

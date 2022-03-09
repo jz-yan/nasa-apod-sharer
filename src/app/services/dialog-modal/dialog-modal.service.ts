@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MediaComponentComponent } from 'src/app/components/media-component/media-component.component';
+import { PopupModalComponent } from 'src/app/components/media-component/media-component.component';
 import { DIALOG_TYPE } from 'src/app/constants';
 import { DialogData } from 'src/app/interfaces';
 
@@ -15,12 +15,12 @@ export class DialogModalService {
 
   // Opens modal that will either display the media or just the title and description
    openModal(data: DialogData): void {
-      this.dialog.open(MediaComponentComponent, { data: data });
+      this.dialog.open(PopupModalComponent, { data: data });
    }
 
    // Open modal that will display the error
    openErrorModal(error: Error): void {
-      this.dialog.open(MediaComponentComponent, { data: 
+      this.dialog.open(PopupModalComponent, { data: 
          {
             type: DIALOG_TYPE.ERROR,
             data: {
