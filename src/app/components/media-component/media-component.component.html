@@ -1,12 +1,23 @@
-<img *ngIf="data.media_type === 'image'" [src]="data.url" class="img-wrapper">
+<img 
+   *ngIf="isMedia; else isText"
+   [src]="data.data.url" 
+   class="img-wrapper"
+>
 
-<mat-card *ngIf="data.explanation">
-  <mat-card-title>
-    {{ data.title }}
-  </mat-card-title>
-  <mat-card-content>
-    <p>
-      {{ data.explanation }}
-    </p>
-  </mat-card-content>
-</mat-card>
+<ng-template
+   #isText
+>
+   <mat-card>
+      <mat-card-title>
+        {{ data.data.title }}
+      </mat-card-title>
+      <mat-card-content>
+        <p>
+          {{ data.data.explanation }}
+        </p>
+       </mat-card-content>
+       <div mat-dialog-actions>
+         <button mat-button mat-dialog-close>Close</button>
+       </div>
+    </mat-card>
+</ng-template>

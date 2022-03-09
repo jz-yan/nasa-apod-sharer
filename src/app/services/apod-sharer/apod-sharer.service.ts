@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { editNewMedia, NASAImage } from '../../interfaces';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { DialogModalService } from '../dialog-modal/dialog-modal.service';
+import { DIALOG_TYPE } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,7 @@ export class ApodSharerService {
   // Number of subsequent posts to get from api after each infinite scroll call
   scrollInterval: number = 3;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private dialogService: DialogModalService) { }
 
   // Returns date in ISO format yyyy-mm-dd as a string
   getISODate(currDate: Date): string {
@@ -80,12 +82,8 @@ export class ApodSharerService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
-      console.log(`${operation} failed: ${error.message}`);
+      // Open error modal with error message
+      this.dialogService.openErrorModal(error);
 
       // Let the app keep running by returning an empty result.
       return of(result as T);
@@ -99,7 +97,8 @@ export class ApodSharerService {
           // Sorting by date descending
           response.sort((a, b) => (a.date < b.date) ? 1 : -1);
           return response.map((i) => editNewMedia(i));
-        })
+        }),
+        catchError(this.handleError<any>('getImages'))
       );
   }
 }

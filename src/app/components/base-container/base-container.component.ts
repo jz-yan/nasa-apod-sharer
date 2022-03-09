@@ -1,9 +1,9 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { ApodSharerService } from 'src/app/services/apod-sharer/apod-sharer.service';
-import { FEEDTYPE, LIKED_EMPTY, REGULAR_EMPTY } from 'src/app/constants';
+import { FEED_TYPE, LIKED_EMPTY, REGULAR_EMPTY } from 'src/app/constants';
 import { NASAImage } from 'src/app/interfaces';
 import { LikedMediaService } from 'src/app/services/liked-media/liked-media.service';
+import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.service';
 
 @Component({
   selector: 'app-base-container',
@@ -11,14 +11,11 @@ import { LikedMediaService } from 'src/app/services/liked-media/liked-media.serv
   styleUrls: ['./base-container.component.scss']
 })
 export class BaseContainerComponent implements OnInit {
-  @ViewChild('menuOpenButton') menuOpenButton: ElementRef | undefined;
-  @ViewChild('menuButton') menuButton: ElementRef | undefined;
+  public forYouLabel = "For You";
+  public likedPostsLabel = "Liked Posts";
 
-  forYouLabel = "For You";
-  likedPostsLabel = "Liked Posts";
-
-  feedReg = FEEDTYPE.REGULAR;
-  feedLiked = FEEDTYPE.LIKED;
+  feedReg = FEED_TYPE.REGULAR;
+  feedLiked = FEED_TYPE.LIKED;
 
   // Open, close menu
   public openMenu: boolean = false;
@@ -47,68 +44,44 @@ export class BaseContainerComponent implements OnInit {
   constructor(
     private apodService: ApodSharerService,
     private likedMedService: LikedMediaService,
-  ) {
-    // apodService.getMedia();
-  }
+    private dialogService: DialogModalService
+  ) {}
 
   // When initialized, get liked posts from local storage and retrieve initial posts from apod service
   ngOnInit(): void {
     this.likedImages = this.likedMedService.getLikedImages();
-    // this.getMediaFeed(this.apodService.getInitialAPOD());
     
     // Get initial images
     this.getImages();
   }
 
   getImages(isInitial: boolean = true): void {
-    this.apodService.getMedia(isInitial)
-    .subscribe(
-      data => {
-        this.feedImages = this.feedImages.concat(data);
+   this.apodService.getMedia(isInitial)
+   .subscribe({
+      next: (data: NASAImage[]) => {
+         this.feedImages = this.feedImages.concat(data);
 
-        this.mediaLoaded = true;
-        this.scrollingLoaded = true;
-      },
-    );
+         if (isInitial) {
+            // Apply liked media
+            this.applyLikedMedia();
+         }
+
+         this.mediaLoaded = true;
+         this.scrollingLoaded = true;
+       },
+       error: (error: Error) => {
+         this.dialogService.openErrorModal(error);
+       }
+     })
+ }
+
+  applyLikedMedia(): void {
+     for (let i = 0; i < this.feedImages.length; i++) {
+        if (this.likedImages.some(e => e.date === this.feedImages[i].date)) {
+           this.feedImages[i].liked = true;
+        }
+     }
   }
-
-  // Retrieve initial posts from apod service
-  // getMediaFeed(service: Observable<Object>): void {
-  //   service.subscribe({
-  //     next: (res: any) => {
-  //       let newImages: NASAImage[] = res;
-
-  //       // Looping through images from api call to add liked property and checking if it is already liked
-  //       for (let i = 0; i < newImages.length; i++) {
-          
-  //         newImages[i].liked = false;
-
-  //         for (let j = 0; j < this.likedImages.length; j++) {
-  //           if (newImages[i].date === this.likedImages[j].date) {
-  //             newImages[i].liked = true;
-  //             break;
-  //           }
-  //         }
-
-  //         if (!newImages[i].copyright) {
-  //           newImages[i].copyright = 'NASA Public Domain';
-  //         }
-  //       }
-        
-  //       // Sort by date descending
-  //       newImages.sort((a, b) => (a.date < b.date) ? 1 : -1);
-  //       // Remove skeleton loader once everything is finished
-  //       this.mediaLoaded = true;
-  //       this.scrollingLoaded = true;
-
-  //       // Adding new posts to regular feed
-  //       this.feedImages = this.feedImages.concat(newImages);
-  //     },
-  //     error: (err: any) => {
-  //       console.log(err)
-  //     }
-  //   })
-  // }
 
   // Method called when like button clicked on posts either in regular or liked feeds
   updateLikedList(image: NASAImage) {
@@ -136,7 +109,6 @@ export class BaseContainerComponent implements OnInit {
   // Called when infinite scroll triggered to add more posts to regular feed
   updateFeed() {
     this.scrollingLoaded = false;
-    // this.getMediaFeed(this.apodService.getScrollingImages());
     this.getImages(false);
   }
 
@@ -153,7 +125,6 @@ export class BaseContainerComponent implements OnInit {
     this.returnToTop();
     this.mediaLoaded = false;
     
-    // this.getMediaFeed(this.apodService.getInitialAPOD());
     this.getImages();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FEEDTYPE } from 'src/app/constants';
+import { FEED_TYPE } from 'src/app/constants';
 import { NASAImage } from 'src/app/interfaces';
 
 @Component({
@@ -9,7 +9,7 @@ import { NASAImage } from 'src/app/interfaces';
 })
 export class HomeContainerComponent implements OnInit {
   // Type of feed: regular or liked
-  @Input() FeedType: FEEDTYPE = FEEDTYPE.REGULAR;
+  @Input() FeedType: FEED_TYPE = FEED_TYPE.REGULAR;
   // Array of posts to display
   @Input() FeedImages: NASAImage[] = [];
   // Message for when feed is empty
@@ -30,7 +30,7 @@ export class HomeContainerComponent implements OnInit {
 
   // Emitting when more posts are needed to be displayed
   onScroll() {
-    if (this.FeedType === FEEDTYPE.REGULAR) {
+    if (this.FeedType === FEED_TYPE.REGULAR) {
       this.onAppendMedia.emit();
     }
   }

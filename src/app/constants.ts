@@ -1,6 +1,12 @@
-export enum FEEDTYPE {
+export enum FEED_TYPE {
     REGULAR = 'REGULAR',
     LIKED = 'LIKED',
+}
+
+export enum DIALOG_TYPE {
+    ERROR,
+    IMAGE,
+    VIDEO
 }
 
 export const REGULAR_EMPTY: string = "There doesn't seem to be any posts at the moment. Please check back later!";
