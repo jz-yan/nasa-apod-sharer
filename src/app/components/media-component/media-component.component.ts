@@ -8,7 +8,7 @@ import { DialogData } from 'src/app/interfaces';
   templateUrl: './media-component.component.html',
   styleUrls: ['./media-component.component.scss']
 })
-export class MediaComponentComponent implements OnInit {
+export class PopupModalComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
   ngOnInit(): void {}
