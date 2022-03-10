@@ -70,3 +70,7 @@ export const DIALOG_ERROR: DialogData = {
    }
 }
 
+export const TEST_DATE: Date = new Date();
+
+export const TEST_ERROR: Error = new Error();
+

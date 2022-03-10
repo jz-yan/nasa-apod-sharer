@@ -7,7 +7,10 @@
     </mat-card-header>
 
     <div class="image-w" *ngIf="isImage">
-      <img [src]="nasaImage.url">
+      <img 
+         [src]="nasaImage.url"
+         [alt]="nasaImage.explanation"
+      >
       <div *ngIf="!isMobile" class="cover">
         <p class="media-description-hover">
           {{ nasaImage.explanation }}

@@ -20,7 +20,7 @@ export class LikedMediaService {
   }
 
   // Retrieve liked images from local storage
-  getLikedImages(): NASAImage[] {
+  get getLikedImages(): NASAImage[] {
     let likedImages: NASAImage[] = JSON.parse(localStorage.getItem("likedImages") || "[]");
 
     return likedImages;

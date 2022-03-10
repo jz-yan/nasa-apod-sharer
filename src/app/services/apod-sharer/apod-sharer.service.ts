@@ -1,28 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { editNewMedia, NASAImage } from '../../interfaces';
+import { NASAImage } from '../../interfaces';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { DialogModalService } from '../dialog-modal/dialog-modal.service';
-import { DIALOG_TYPE } from 'src/app/constants';
+import { APOD_KEY, APOD_URL, INIT_INTERVAL, SCROLL_INTERVAL } from 'src/app/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApodSharerService {
-  // URL of apod api
-  apodURL: string = 'https://api.nasa.gov/planetary/apod';
-  
-  // API key
-  apiKey: string  = 'fqHuCTIVc03J3sidHAr5QsxiB8P9FAS9ffY5v7y9';
   // Start date for query parameter
   startDate: Date = new Date();
   // End date for query parameter
   endDate: Date = new Date();
-
-  // Initial number of posts to display
-  initialInterval: number = 7;
-  // Number of subsequent posts to get from api after each infinite scroll call
-  scrollInterval: number = 3;
 
   constructor(private httpClient: HttpClient, private dialogService: DialogModalService) { }
 
@@ -45,7 +35,7 @@ export class ApodSharerService {
 
   // Call GET with provided query parameters
   getMediaByURL(url: string, startDate: Date, endDate: Date): Observable<any> {
-    let params = new HttpParams().set('api_key', this.apiKey).set('start_date', this.getISODate(startDate)).set('end_date', this.getISODate(endDate));
+    let params = new HttpParams().set('api_key', APOD_KEY).set('start_date', this.getISODate(startDate)).set('end_date', this.getISODate(endDate));
     return this.httpClient.get(url, { params: params });
   }
 
@@ -59,18 +49,18 @@ export class ApodSharerService {
 
   // Get initial posts
   getInitialAPOD() {
-    this.startDate = this.getNextDate(this.endDate, this.initialInterval);
+    this.startDate = this.getNextDate(this.endDate, INIT_INTERVAL);
 
-    return this.getMediaByURL(this.apodURL, this.startDate, this.endDate);
+    return this.getMediaByURL(APOD_URL, this.startDate, this.endDate);
   }
 
   // Get infinite scroll posts
   getScrollingImages() {
     this.endDate = this.getNextDate(this.startDate, 1);
 
-    this.startDate = this.getNextDate(this.endDate, this.scrollInterval);
+    this.startDate = this.getNextDate(this.endDate, SCROLL_INTERVAL);
 
-    return this.getMediaByURL(this.apodURL, this.startDate, this.endDate);
+    return this.getMediaByURL(APOD_URL, this.startDate, this.endDate);
   }
 
   /**
@@ -96,9 +86,23 @@ export class ApodSharerService {
         map((response: NASAImage[]) => {
           // Sorting by date descending
           response.sort((a, b) => (a.date < b.date) ? 1 : -1);
-          return response.map((i) => editNewMedia(i));
+          return response.map((i) => this.editNewMedia(i));
         }),
         catchError(this.handleError<any>('getImages'))
       );
   }
+
+  editNewMedia(img: NASAImage): NASAImage {
+   return {
+       liked: false,
+       copyright: img.copyright ? img.copyright : 'NASA Public Domain',
+       date: img.date,
+       explanation: img.explanation,
+       hdurl: img.hdurl,
+       media_type: img.media_type,
+       service_version: img.service_version,
+       title: img.title,
+       url: img.url
+   }
+}
 }

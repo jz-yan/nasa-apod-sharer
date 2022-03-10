@@ -12,20 +12,6 @@ export interface NASAImage {
     url: string,
 }
 
-export function editNewMedia(img: NASAImage): NASAImage {
-    return {
-        liked: false,
-        copyright: img.copyright ? img.copyright : 'NASA Public Domain',
-        date: img.date,
-        explanation: img.explanation,
-        hdurl: img.hdurl,
-        media_type: img.media_type,
-        service_version: img.service_version,
-        title: img.title,
-        url: img.url
-    }
-}
-
 export interface DialogData {
     type: DIALOG_TYPE,
     data: {

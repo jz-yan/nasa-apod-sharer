@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { DIALOG_TYPE } from 'src/app/constants';
+import { DIALOG_TYPE, EXPLANATION_MSG, MAGNIFY_MSG, SHARE_MSG } from 'src/app/constants';
 import { NASAImage } from 'src/app/interfaces';
 import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.service';
   
@@ -54,17 +54,17 @@ export class ImgContainerComponent implements OnInit {
 
   // Get tooltip/aria label for viewing media dialog
   get mediaDialogMessage(): string {
-    return 'View this post';
+    return MAGNIFY_MSG;
   }
 
   // Get tooltip/aria label for viewing explanation dialog
   get explanationDialogMessage(): string {
-    return 'View explanation for this post';
+    return EXPLANATION_MSG;
   }
 
   // Get tooltip/aria label for opening post in new tab
   get shareMessage(): string {
-    return 'Open this post in a new tab';
+    return SHARE_MSG;
   }
 
   // Checks whether device is mobile or if media type is a video
