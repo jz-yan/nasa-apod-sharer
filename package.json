@@ -62,7 +62,8 @@
     },
     "modulePaths": [
       "<rootDir>"
-    ]
+    ],
+    "collectCoverage": true
   },
   "engines": {
     "node": "14.15.4",

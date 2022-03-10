@@ -13,7 +13,7 @@ export class PopupModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  get isMedia(): boolean {
+  get isImage(): boolean {
      return this.data.type === DIALOG_TYPE.IMAGE;
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApodSharerService } from 'src/app/services/apod-sharer/apod-sharer.service';
-import { FEED_TYPE, LIKED_EMPTY, REGULAR_EMPTY } from 'src/app/constants';
+import { APP_NAME, FEED_TYPE, LIKED_EMPTY, LIKE_FEED, REFRESH_MSG, REGULAR_EMPTY, REG_FEED, SCROLL_TOP_MSG } from 'src/app/constants';
 import { NASAImage } from 'src/app/interfaces';
 import { LikedMediaService } from 'src/app/services/liked-media/liked-media.service';
 import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.service';
@@ -11,21 +11,11 @@ import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.s
   styleUrls: ['./base-container.component.scss']
 })
 export class BaseContainerComponent implements OnInit {
-  public forYouLabel = "For You";
-  public likedPostsLabel = "Liked Posts";
-
-  feedReg = FEED_TYPE.REGULAR;
-  feedLiked = FEED_TYPE.LIKED;
+  public feedReg = FEED_TYPE.REGULAR;
+  public feedLiked = FEED_TYPE.LIKED;
 
   // Open, close menu
   public openMenu: boolean = false;
-
-  // Scroll to top message
-  public scrollTopMsg: string = "Scroll to top of feed";
-  // Refresh feed message
-  public refreshMsg: string = "Refresh feed contents";
-  // Switch lighting message
-  public lightingMsg: string = "Change lighting mode";
 
   // array of posts corresponding to regular feed
   public feedImages: NASAImage[] = [];
@@ -42,14 +32,14 @@ export class BaseContainerComponent implements OnInit {
   public likedEmpty: string = LIKED_EMPTY;
 
   constructor(
-    private apodService: ApodSharerService,
-    private likedMedService: LikedMediaService,
+    public apodService: ApodSharerService,
+    public likedMedService: LikedMediaService,
     private dialogService: DialogModalService
   ) {}
 
   // When initialized, get liked posts from local storage and retrieve initial posts from apod service
   ngOnInit(): void {
-    this.likedImages = this.likedMedService.getLikedImages();
+    this.likedImages = this.likedMedService.getLikedImages;
     
     // Get initial images
     this.getImages();
@@ -102,29 +92,45 @@ export class BaseContainerComponent implements OnInit {
     this.likedMedService.saveLikedImages(this.likedImages);
   }
 
-  getApodService() {
-    return this.apodService;
-  }
-
   // Called when infinite scroll triggered to add more posts to regular feed
-  updateFeed() {
+  updateFeed(): void {
     this.scrollingLoaded = false;
     this.getImages(false);
   }
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.openMenu = !this.openMenu;
   }
 
-  returnToTop() {
+  returnToTop(): void {
     window.scrollTo({top: 0, behavior: 'smooth'});
     this.openMenu = !this.openMenu;
   }
 
-  refreshFeed() {
+  refreshFeed(): void {
     this.returnToTop();
     this.mediaLoaded = false;
     
     this.getImages();
+  }
+
+  get getAppTitle(): string {
+     return APP_NAME;
+  }
+
+  get forYouLabel(): string {
+     return REG_FEED;
+  }
+
+  get likedPostsLabel(): string {
+     return LIKE_FEED;
+  }
+
+  get scrollTopMsg(): string {
+     return SCROLL_TOP_MSG;
+  }
+
+  get refreshMsg(): string {
+     return REFRESH_MSG;
   }
 }
