@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { DIALOG_TYPE } from 'src/app/constants';
-import { DialogData, NASAImage } from 'src/app/interfaces';
+import { NASAImage } from 'src/app/interfaces';
 import { DialogModalService } from 'src/app/services/dialog-modal/dialog-modal.service';
   
 @Component({
@@ -17,23 +17,13 @@ export class ImgContainerComponent implements OnInit {
   @Output() onLikeImage: EventEmitter<NASAImage> = new EventEmitter();
   // Data for either media or description dialog modal
 
-  constructor(private sanitizer: DomSanitizer, private deviceService: DeviceDetectorService, private dialogService: DialogModalService) { }
+  constructor(public sanitizerService: DomSanitizer, public deviceService: DeviceDetectorService, public dialogService: DialogModalService) { }
 
   ngOnInit(): void {}
 
   // Emit post when liked or unliked
-  onLike() {
+  onLike(): void {
     this.onLikeImage.emit(this.nasaImage);
-  }
-
-  // Sanitizes YouTube url's to display in iframe
-  sanitizeVideo() {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.nasaImage.url);
-  }
-
-  // Change button colour when liked or unliked
-  toggleLikeColour(): string {
-    return this.nasaImage.liked ? 'accent' : 'primary';
   }
 
   openDialog(isMedia: boolean = true): void {
@@ -46,6 +36,16 @@ export class ImgContainerComponent implements OnInit {
       }
      });
   }
+
+  // Change button colour when liked or unliked
+  get toggleLikeColour(): string {
+   return this.nasaImage.liked ? 'accent' : 'primary';
+ }
+
+  // Sanitizes YouTube url's to display in iframe
+  get sanitizeVideo(): SafeResourceUrl {
+   return this.sanitizerService.bypassSecurityTrustResourceUrl(this.nasaImage.url);
+ }
 
   // Get tooltip/aria label for favouriting post
   get likePostMessage(): string {

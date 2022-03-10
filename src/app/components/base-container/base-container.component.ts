@@ -14,8 +14,8 @@ export class BaseContainerComponent implements OnInit {
   public forYouLabel = "For You";
   public likedPostsLabel = "Liked Posts";
 
-  feedReg = FEED_TYPE.REGULAR;
-  feedLiked = FEED_TYPE.LIKED;
+  public feedReg = FEED_TYPE.REGULAR;
+  public feedLiked = FEED_TYPE.LIKED;
 
   // Open, close menu
   public openMenu: boolean = false;
@@ -42,8 +42,8 @@ export class BaseContainerComponent implements OnInit {
   public likedEmpty: string = LIKED_EMPTY;
 
   constructor(
-    private apodService: ApodSharerService,
-    private likedMedService: LikedMediaService,
+    public apodService: ApodSharerService,
+    public likedMedService: LikedMediaService,
     private dialogService: DialogModalService
   ) {}
 
@@ -102,26 +102,22 @@ export class BaseContainerComponent implements OnInit {
     this.likedMedService.saveLikedImages(this.likedImages);
   }
 
-  getApodService() {
-    return this.apodService;
-  }
-
   // Called when infinite scroll triggered to add more posts to regular feed
-  updateFeed() {
+  updateFeed(): void {
     this.scrollingLoaded = false;
     this.getImages(false);
   }
 
-  toggleMenu() {
+  toggleMenu(): void {
     this.openMenu = !this.openMenu;
   }
 
-  returnToTop() {
+  returnToTop(): void {
     window.scrollTo({top: 0, behavior: 'smooth'});
     this.openMenu = !this.openMenu;
   }
 
-  refreshFeed() {
+  refreshFeed(): void {
     this.returnToTop();
     this.mediaLoaded = false;
     

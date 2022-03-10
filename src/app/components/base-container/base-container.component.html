@@ -6,7 +6,7 @@
 
 <button
   mat-mini-fab
-  class="action-button one"
+  class="action-button return-to-top"
   *ngIf="openMenu"
   color="basic"
   (click)="returnToTop()"
@@ -20,7 +20,7 @@
 
 <button
   mat-mini-fab
-  class="action-button two"
+  class="action-button refresh"
   *ngIf="openMenu"
   color="basic"
   (click)="refreshFeed()"
@@ -58,7 +58,8 @@
         [FeedType]="feedReg" 
         [FeedImages]="feedImages"
         [EmptyMsg]="forYouEmpty"
-        (onSelectLike)="updateLikedList($event)" (onAppendMedia)="updateFeed()"
+        (onSelectLike)="updateLikedList($event)" 
+        (onAppendMedia)="updateFeed()"
       ></app-home-container>
 
       <!-- Skeleton loader for infinite scrolling -->

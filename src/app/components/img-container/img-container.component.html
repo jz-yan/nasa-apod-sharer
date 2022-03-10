@@ -16,11 +16,11 @@
     </div>
 
     <div *ngIf="!isImage" class="video-container">
-      <iframe [src]="sanitizeVideo()" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe [src]="sanitizeVideo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     
     <mat-card-actions>
-      <button (click)="onLike()" [color]="toggleLikeColour()" mat-fab [attr.aria-label]="likePostMessage" [matTooltip]="likePostMessage">
+      <button class="like-button" (click)="onLike()" [color]="toggleLikeColour" mat-fab [attr.aria-label]="likePostMessage" [matTooltip]="likePostMessage">
         <mat-icon>favorite</mat-icon>
       </button>
       <button *ngIf="isImage && !isMobile" (click)="openDialog()" color="primary" mat-fab [attr.aria-label]="mediaDialogMessage" [matTooltip]="mediaDialogMessage">
